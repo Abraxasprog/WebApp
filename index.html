@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaf Coffee WebApp</title>
+  <meta charset="UTF-8">
+  <title>Выбор кофе</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <h1>test</h1>
-    <h3>another testing</h3>
+  <h2>Выберите кофе</h2>
+  <select id="coffee">
+    <option value="espresso">Эспрессо</option>
+    <option value="latte">Латте</option>
+    <option value="cappuccino">Капучино</option>
+  </select>
+  <button onclick="nextStep()">Далее</button>
+
+  <script>
+    function nextStep() {
+      const coffee = document.getElementById('coffee').value;
+      localStorage.setItem('coffee', coffee); // сохраняем выбор
+      window.location.href = 'size.html'; // переход к следующему шагу
+    }
+  </script>
 </body>
 </html>
