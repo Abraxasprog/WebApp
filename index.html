@@ -8,10 +8,10 @@
   <script>
     const chatId = new URLSearchParams(window.location.search).get("chat_id");
 fetch(`https://web-app-nine-lime.vercel.app/index/?chat_id=${chatId}`)
+  .then(alert(chatId))
   .then(res => res.json())
-  .then(data => {
+  .then(alert(data)).then(data =>
     data.coffees.forEach(coffee => {
-      alert(coffees);
       const btn = document.createElement("button");
       btn.innerText = coffee;
       btn.onclick = () => {
