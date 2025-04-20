@@ -7,7 +7,8 @@
 </head>
   <script>
     const chatId = new URLSearchParams(window.location.search).get("chat_id");
-
+console.log(chatId);
+    alert(chatId);
 fetch(`https://web-app-nine-lime.vercel.app/index/?chat_id=${chatId}`)
   .then(res => res.json())
   .then(data => {
