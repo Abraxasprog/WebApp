@@ -5,21 +5,24 @@
   <title>Выбор кофе</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-<body>
-  <h2>Выберите кофе</h2>
-  <select id="coffee">
-    <option value="espresso">Эспрессо</option>
-    <option value="latte">Латте</option>
-    <option value="cappuccino">Капучино</option>
-  </select>
-  <button onclick="nextStep()">Далее</button>
-
   <script>
-    function nextStep() {
-      const coffee = document.getElementById('coffee').value;
-      localStorage.setItem('coffee', coffee); // сохраняем выбор
-      window.location.href = 'size.html'; // переход к следующему шагу
-    }
+    const chatId = new URLSearchParams(window.location.search).get("chat_id");
+
+fetch(`https://web-app-nine-lime.vercel.app/?chat_id=${chat_id}`)
+  .then(res => res.json())
+  .then(data => {
+    data.coffees.forEach(coffee => {
+      const btn = document.createElement("button");
+      btn.innerText = coffee;
+      btn.onclick = () => {
+        window.Telegram.WebApp.sendData(JSON.stringify({ coffee }));
+        window.Telegram.WebApp.close();
+      };
+      document.body.appendChild(btn);
+    });
+  });
   </script>
+<body>
+
 </body>
 </html>
