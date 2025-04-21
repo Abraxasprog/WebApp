@@ -5,23 +5,35 @@
   <title>Выбор кофе</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
+<body>
+  <div id="coffee-buttons"></div>
+
   <script>
     const chatId = new URLSearchParams(window.location.search).get("chat_id");
-fetch(`https://bd23-185-203-238-91.ngrok-free.app/index?chat_id=${chatId}`)
-  .then(res => res.json())
-  .then(data =>
-    data.coffees.forEach(coffee => {
-      const btn = document.createElement("button");
-      btn.innerText = coffee;
-      btn.onclick = () => {
-        window.Telegram.WebApp.sendData(JSON.stringify({ coffee }));
-        window.Telegram.WebApp.close();
-      };
-      document.body.appendChild(btn);
-    });
-  });
-  </script>
-<body>
 
+    fetch(`https://bd23-185-203-238-91.ngrok-free.app/index?chat_id=${chatId}`)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("coffee-buttons");
+
+        if (!data.coffees || data.coffees.length === 0) {
+          container.innerText = "Нет доступных напитков";
+          return;
+        }
+
+        data.coffees.forEach(coffee => {
+          const btn = document.createElement("button");
+          btn.innerText = coffee;
+          btn.onclick = () => {
+            window.Telegram.WebApp.sendData(JSON.stringify({ coffee }));
+            window.Telegram.WebApp.close();
+          };
+          container.appendChild(btn);
+        });
+      })
+      .catch(err => {
+        console.error("Ошибка загрузки кофе:", err);
+      });
+  </script>
 </body>
 </html>
