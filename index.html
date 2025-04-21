@@ -16,7 +16,6 @@
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("coffee-buttons");
-        alert(data.coffees);
         if (!data.coffees || data.coffees.length === 0) {
           container.innerText = "Нет доступных напитков";
           return;
@@ -35,6 +34,7 @@
       .catch(err => {
         console.error("Ошибка загрузки кофе:", err);
       });
+      alert(data);
   </script>
 </body>
 </html>
