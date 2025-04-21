@@ -10,25 +10,35 @@
 
   <script>
     const chatId = new URLSearchParams(window.location.search).get("chat_id");
-    fetch(`https://tiffany-orleans-dennis-second.trycloudflare.com/index?chat_id=${chatId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        mode: "cors"
-    })
-    .then(res => {
-        console.log("Response status:", res.status); // 👈 важный лог
-        return res.json(); // если тут ошибка — оно вылетит в catch
-    })
-    .then(data => {
-        console.log("Data received:", data);
-        alert("Получено от сервера " + JSON.stringify(data));
-    })
-    .catch(err => {
+    alert("chat_id: " + chatId);
+
+    const url = `https://tiffany-orleans-dennis-second.trycloudflare.com/index?chat_id=${chatId}`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        alert("Получено от сервера: " + JSON.stringify(data));
+
+        const container = document.getElementById("coffee-buttons");
+        if (!data.coffees || data.coffees.length === 0) {
+          container.innerText = "Нет доступных напитков";
+          return;
+        }
+
+        data.coffees.forEach(coffee => {
+          const btn = document.createElement("button");
+          btn.innerText = coffee;
+          btn.onclick = () => {
+            window.Telegram.WebApp.sendData(JSON.stringify({ coffee }));
+            window.Telegram.WebApp.close();
+          };
+          container.appendChild(btn);
+        });
+      })
+      .catch(err => {
         console.error("Ошибка загрузки кофе:", err);
-        alert("Fetch error: " + err); // 👈 алерт если ошибка
-    });
+        alert("Ошибка при получении данных: " + err.message);
+      });
   </script>
 </body>
 </html>
