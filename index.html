@@ -13,29 +13,18 @@
     alert(chatId);
     alert(`https://bd23-185-203-238-91.ngrok-free.app/index?chat_id=${chatId}`);
     fetch(`https://bd23-185-203-238-91.ngrok-free.app/index?chat_id=${chatId}`)
-      .then(res => res.json())
-      .then(data => {
+    .then(res => {
+        console.log("Response status:", res.status); // 👈 важный лог
+        return res.json(); // если тут ошибка — оно вылетит в catch
+    })
+    .then(data => {
+        console.log("Data received:", data);
         alert("Получено от сервера " + JSON.stringify(data));
-        const container = document.getElementById("coffee-buttons");
-        if (!data.coffees || data.coffees.length === 0) {
-          container.innerText = "Нет доступных напитков";
-          return;
-        }
-
-        data.coffees.forEach(coffee => {
-          const btn = document.createElement("button");
-          btn.innerText = coffee;
-          btn.onclick = () => {
-            window.Telegram.WebApp.sendData(JSON.stringify({ coffee }));
-            window.Telegram.WebApp.close();
-          };
-          container.appendChild(btn);
-        });
-      })
-      .catch(err => {
+    })
+    .catch(err => {
         console.error("Ошибка загрузки кофе:", err);
-      });
-      alert(data);
+        alert("Fetch error: " + err); // 👈 алерт если ошибка
+    });
   </script>
 </body>
 </html>
