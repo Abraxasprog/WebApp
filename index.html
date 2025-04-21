@@ -10,8 +10,6 @@
 
   <script>
     const chatId = new URLSearchParams(window.location.search).get("chat_id");
-    alert(chatId);
-    alert(`https://0b14-185-203-238-91.ngrok-free.app/index?chat_id=${chatId}`);
     fetch(`https://0b14-185-203-238-91.ngrok-free.app/index?chat_id=${chatId}`, {
         method: "GET",
         headers: {
